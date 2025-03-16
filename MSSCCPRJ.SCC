@@ -1,5 +1,5 @@
 [SCC]
 SCC=This is a source code control file
-[Project1.vbp]
-SCC_Project_Name=this project is not under source code control
+[project1.vbp]
+SCC_Project_Name=VB6
 SCC_Aux_Path=<This is an empty string for the mssccprj.scc file>
