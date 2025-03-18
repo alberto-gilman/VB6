@@ -1,0 +1,35 @@
+<Formulario Caption="Form1">   
+  <SSTab1>
+     <TAB0 Caption="Primera Pestaña" /> 
+     <TAB1 Caption="Segunda pestaña" /> 
+  </SSTab1>
+  <ListView ToolTipText="Other Control" Index="">
+    <CHE1 Text="Header 1" />
+    <CHE2 Text="Header2" />
+  </ListView>
+  <Toolbarx ToolTipText="" Index="">
+    <BTN1 Caption="see" ToolTipText="See file"/>
+    <BTN2 Caption="ear" ToolTipText="Ear file"/>
+    <BTN3 Caption="down" ToolTipText="deploy down">
+      <BTM1 Text="first option"/>
+      <BTM2 Text="second option"/>
+    </BTN3>
+  </Toolbarx>
+  <Text1 ToolTipText="One textbox for test" Index="1"/>
+  <Text1 ToolTipText="Other textbor for test" Index="0"/>
+  <SSDBGrid Caption="Clients" ToolTipText="" Index="">
+    <Nombre Caption="Name"/>
+    <Telefono Caption="Telephone"/>
+  </SSDBGrid>
+  <Command1 Caption="Exit" ToolTipText="Close Aplication" Index=""/>
+  <Frame1 Caption="Another Control" ToolTipText="" Index=""/>
+  <Label2 Caption="Label 2" ToolTipText="" Index=""/>
+  <Label1 Caption="Label 1" ToolTipText="" Index=""/>
+  <Menu>
+    <MenuItem Text="File">
+      <MenuItem Text="Save" />
+      <MenuItem Text="Load" />
+    </MenuItem>
+    <MenuItem Text="Edit"/>
+  </Menu>
+</Formulario>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<Formulario Caption="Formulario1">
+  <Messages>
+    <SALUDOS>Saludos de parte de %0% desde %1%</SALUDOS> 
+	<ASKFOREXIT>
+		¿Realmente desea salir de la aplicación?\n\tSi sale ahora podra volver a entrar luego
+	</ASKFOREXIT>
+  </Messages>
+  <cmdMsg ToolTipText="" Index="" Caption="Saludos" /> 
+  <DataGrid ToolTipText="" Index="" Caption="" /> 
+  <MSHFlexGrid ToolTipText="" Index="" Text="" /> 
+- <SSTab1 ToolTipText="Son las pestañas" Index="" Caption="Primera Pestaña">
+  <TAB0 Caption="Primera Pestaña" /> 
+  <TAB1 Caption="Segunda pestaña" /> 
+  </SSTab1>
+- <MSFlexGrid ToolTipText="ToolTip del FlexGrid" Index="" Text="">
+  <TextArray TXA0="Fila 0 Columna 0" TXA1="Fila 0 Columna 1" TXA2="Fila 1 Columna 0" TXA3="Fila 1 Columna 1" TXA4="Fila 2 Columna 0" /> 
+  </MSFlexGrid>
+- <StatusBar ToolTipText="Es la barra de estado" Index="">
+  <PAN1 Text="PANEL IZDA" ToolTipText="Es el panel de la Izda" /> 
+  <PAN2 Text="OTRO PANEL" ToolTipText="Es otro Panel" /> 
+  <PAN3 Text="" ToolTipText="Es panel de fecha" /> 
+  </StatusBar>
+- <ListView ToolTipText="Otro Control" Index="">
+  <CHE1 Text="Cabecera 1" /> 
+  <CHE2 Text="Cabecera2" /> 
+  <CHE3 Text="Fecha"/>
+  </ListView>
+- <Toolbarx ToolTipText="barra de herramientas" Index="">
+  <BTN1 Caption="ver" ToolTipText="Ver archivo" /> 
+  <BTN2 Caption="oir" ToolTipText="Oir archivo" /> 
+- <BTN3 Caption="abajo" ToolTipText="desplegar abajo">
+  <BTM1 Text="primera opcion" /> 
+  <BTM2 Text="segunda opcion" /> 
+  </BTN3>
+  </Toolbarx>
+  <Text1 ToolTipText="Un texto para pruebas 2" Index="1" Text="Texto 1" /> 
+  <Text1 ToolTipText="Un texto para pruebas" Index="0" Text="Texto 0" /> 
+  <Command1 ToolTipText="Cerrar la aplicación" Index="" Caption="Salir" /> 
+  <Frame1 ToolTipText="" Index="" Caption="Otro Control" /> 
+  <Label2 ToolTipText="" Index="" Caption="Etiqueta 2" /> 
+  <Label1 ToolTipText="" Index="" Caption="Etiqueta 1" /> 
+- <Menu>
+- <MenuItem Text="Archivo">
+  <MenuItem Text="Guardar" /> 
+  <MenuItem Text="Cargar" /> 
+  </MenuItem>
+  <MenuItem Text="Edición" /> 
+  </Menu>
+  </Formulario>
