@@ -1,8 +1,0 @@
-frmGotoLine = 156, 156, 1146, 685, , 1742, 24, 1920, 63, C
-Connect = 0, 58, 1940, 633, Z, -87, 85, 1509, 834, C
-clsMyVar = 160, 104, 1540, 420, C
-frmEncapsulateField = 160, 104, 1309, 406, , 120, 78, 1149, 501, C
-clsReplace = 160, 104, 1189, 527, C
-NumTextBox = 0, 0, 0, 0, C, 80, 52, 1284, 528, 
-cStringBuilder = 240, 156, 1213, 689, C
-General = 120, 78, 1340, 554, 
