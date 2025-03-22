@@ -54,106 +54,115 @@ End Sub
 
 
 Public Sub LoadLanguage(ByVal dir As String, ByVal ProductName As String, ByVal of As Object, ByVal Language As String)
-    Dim objNode As MSXML2.IXMLDOMNode
-    Dim nodoHijo As MSXML2.IXMLDOMNode
-    Dim nodoNieto As MSXML2.IXMLDOMNode
-    Dim oControl As Control
-    Dim oAtt As MSXML2.IXMLDOMAttribute
-    Dim oAtt2 As MSXML2.IXMLDOMAttribute
-    Dim hMenu As Long
+          Dim objNode As MSXML2.IXMLDOMNode
+          Dim nodoHijo As MSXML2.IXMLDOMNode
+          Dim nodoNieto As MSXML2.IXMLDOMNode
+          Dim oControl As Control
+          Dim oAtt As MSXML2.IXMLDOMAttribute
+          Dim oAtt2 As MSXML2.IXMLDOMAttribute
+          Dim hMenu As Long
 
 
-    
-    RootNode = of.Name
-    mDir = dir
-    mProductName = ProductName
-    XMLDoc.Load dir & "\" & mProductName & "." & RootNode & "." & Language & ".xml"
-    
-    
-    Set objNode = XMLDoc.selectSingleNode("/" & RootNode)
-    For Each oAtt In objNode.Attributes
-        CallByName of, oAtt.nodeName, VbLet, oAtt.Text
-    Next oAtt
-    
-    For Each nodoHijo In objNode.childNodes
-        If nodoHijo.nodeName = "Messages" Then
-            'Los mensajes no se procesan
-        ElseIf nodoHijo.nodeName = "Menu" Then
-    
-            hMenu = GetMenu(of.hwnd)
-            SetMenuInfo hMenu, nodoHijo
-        Else
-            If nodoHijo.Attributes.getNamedItem("Index").Text = "" Then
-                Set oControl = of.Controls(nodoHijo.nodeName)
-            Else
-                Set oControl = of.Controls(nodoHijo.nodeName)(nodoHijo.Attributes.getNamedItem("Index").Text)
-            End If
-            For Each oAtt In nodoHijo.Attributes
-                If oAtt.nodeName <> "Index" Then
-                    CallByName oControl, oAtt.nodeName, VbLet, oAtt.Text
-                End If
-            Next oAtt
-            Select Case TypeName(oControl)
-                Case "SSDBGrid"
-                    For Each nodoNieto In nodoHijo.childNodes
-                        For Each oAtt2 In nodoNieto.Attributes
-                            CallByName oControl.Columns(nodoNieto.nodeName), oAtt2.nodeName, VbLet, oAtt2.Text
-                        Next oAtt2
-                    Next nodoNieto
-                Case "Toolbar"
-                    Dim BTN As Object
-                    Dim nodoBisNieto As MSXML2.IXMLDOMNode
-                   
-                    For Each nodoNieto In nodoHijo.childNodes
-                        Set BTN = oControl.Buttons(CInt(Mid(nodoNieto.nodeName, 4)))
-                        For Each oAtt2 In nodoNieto.Attributes
-                            CallByName BTN, oAtt2.nodeName, VbLet, oAtt2.Text
-                        Next oAtt2
-                        If BTN.Style = 5 Then
-                            Dim MBTN As Object
-                            
-                            For Each nodoBisNieto In nodoNieto.childNodes
-                                Set MBTN = BTN.ButtonMenus(CInt(Mid(nodoBisNieto.nodeName, 4)))
-                                    
-                                    
-                                For Each oAtt2 In nodoBisNieto.Attributes
-                                    CallByName MBTN, oAtt2.nodeName, VbLet, oAtt2.Text
-                                Next oAtt2
-                            Next nodoBisNieto
-                        End If
-                    Next nodoNieto
-                Case "ListView"
-                    Dim CH As Object
-                    For Each nodoNieto In nodoHijo.childNodes
-                        Set CH = oControl.ColumnHeaders(CInt(Mid(nodoNieto.nodeName, 4)))
-                        For Each oAtt2 In nodoNieto.Attributes
-                            CallByName CH, oAtt2.nodeName, VbLet, oAtt2.Text
-                        Next oAtt2
-                    Next nodoNieto
-                Case "SSTab"
-                    For Each nodoNieto In nodoHijo.childNodes
-                        oControl.TabCaption(CInt(Mid(nodoNieto.nodeName, 4))) = nodoNieto.Attributes(0).Text
-                    Next nodoNieto
-                Case "StatusBar"
-                    For Each nodoNieto In nodoHijo.childNodes
-                        Set CH = oControl.Panels(CInt(Mid(nodoNieto.nodeName, 4)))
-                        For Each oAtt2 In nodoNieto.Attributes
-                            CallByName CH, oAtt2.nodeName, VbLet, oAtt2.Text
-                        Next oAtt2
-                    Next nodoNieto
-                Case "MSFlexGrid"
-                    For Each nodoNieto In nodoHijo.childNodes
-                        If nodoNieto.nodeName = "TextArray" Then
-                            For Each oAtt2 In nodoNieto.Attributes
-                                oControl.TextArray(Mid(oAtt2.Name, 4)) = oAtt2.Text
-                            Next oAtt2
-                        End If
-                    Next nodoNieto
-            End Select
-        End If
-    Next nodoHijo
-    
-    
+          
+10        On Error GoTo Err_LoadLanguage
+20        RootNode = of.Name
+30        mDir = dir
+40        mProductName = ProductName
+50        XMLDoc.Load dir & "\" & mProductName & "." & RootNode & "." & Language & ".xml"
+          
+          
+60        Set objNode = XMLDoc.selectSingleNode("/" & RootNode)
+70        For Each oAtt In objNode.Attributes
+80            CallByName of, oAtt.nodeName, VbLet, oAtt.Text
+90        Next oAtt
+          
+100       For Each nodoHijo In objNode.childNodes
+110           If nodoHijo.nodeName = "Messages" Then
+                  'Los mensajes no se procesan
+120           ElseIf nodoHijo.nodeName = "Menu" Then
+          
+130               hMenu = GetMenu(of.hwnd)
+140               SetMenuInfo hMenu, nodoHijo
+150           Else
+160               If nodoHijo.Attributes.getNamedItem("Index").Text = "" Then
+170                   Set oControl = of.Controls(nodoHijo.nodeName)
+180               Else
+190                   Set oControl = of.Controls(nodoHijo.nodeName)(nodoHijo.Attributes.getNamedItem("Index").Text)
+200               End If
+210               For Each oAtt In nodoHijo.Attributes
+220                   If oAtt.nodeName <> "Index" Then
+230                       CallByName oControl, oAtt.nodeName, VbLet, oAtt.Text
+240                   End If
+250               Next oAtt
+260               Select Case TypeName(oControl)
+                      Case "SSDBGrid"
+270                       For Each nodoNieto In nodoHijo.childNodes
+280                           For Each oAtt2 In nodoNieto.Attributes
+290                               CallByName oControl.Columns(nodoNieto.nodeName), oAtt2.nodeName, VbLet, oAtt2.Text
+300                           Next oAtt2
+310                       Next nodoNieto
+320                   Case "Toolbar"
+                          Dim BTN As Object
+                          Dim nodoBisNieto As MSXML2.IXMLDOMNode
+                         
+330                       For Each nodoNieto In nodoHijo.childNodes
+340                           Set BTN = oControl.Buttons(CInt(Mid(nodoNieto.nodeName, 4)))
+350                           For Each oAtt2 In nodoNieto.Attributes
+360                               CallByName BTN, oAtt2.nodeName, VbLet, oAtt2.Text
+370                           Next oAtt2
+380                           If BTN.Style = 5 Then
+                                  Dim MBTN As Object
+                                  
+390                               For Each nodoBisNieto In nodoNieto.childNodes
+400                                   Set MBTN = BTN.ButtonMenus(CInt(Mid(nodoBisNieto.nodeName, 4)))
+                                          
+                                          
+410                                   For Each oAtt2 In nodoBisNieto.Attributes
+420                                       CallByName MBTN, oAtt2.nodeName, VbLet, oAtt2.Text
+430                                   Next oAtt2
+440                               Next nodoBisNieto
+450                           End If
+460                       Next nodoNieto
+470                   Case "ListView"
+                          Dim CH As Object
+480                       For Each nodoNieto In nodoHijo.childNodes
+490                           Set CH = oControl.ColumnHeaders(CInt(Mid(nodoNieto.nodeName, 4)))
+500                           For Each oAtt2 In nodoNieto.Attributes
+510                               CallByName CH, oAtt2.nodeName, VbLet, oAtt2.Text
+520                           Next oAtt2
+530                       Next nodoNieto
+540                   Case "SSTab"
+550                       For Each nodoNieto In nodoHijo.childNodes
+560                           oControl.TabCaption(CInt(Mid(nodoNieto.nodeName, 4))) = nodoNieto.Attributes(0).Text
+570                       Next nodoNieto
+580                   Case "StatusBar"
+590                       For Each nodoNieto In nodoHijo.childNodes
+600                           Set CH = oControl.Panels(CInt(Mid(nodoNieto.nodeName, 4)))
+610                           For Each oAtt2 In nodoNieto.Attributes
+620                               CallByName CH, oAtt2.nodeName, VbLet, oAtt2.Text
+630                           Next oAtt2
+640                       Next nodoNieto
+650                   Case "MSFlexGrid"
+660                       For Each nodoNieto In nodoHijo.childNodes
+670                           If nodoNieto.nodeName = "TextArray" Then
+680                               For Each oAtt2 In nodoNieto.Attributes
+690                                   oControl.TextArray(Mid(oAtt2.Name, 4)) = oAtt2.Text
+700                               Next oAtt2
+710                           End If
+720                       Next nodoNieto
+730               End Select
+740           End If
+750       Next nodoHijo
+          
+          
+
+760       Exit Sub
+Err_LoadLanguage:
+770       If Erl = 0 Then
+780           Err.Raise Err.Number, "clsGestionIdioma.LoadLanguage" & vbCrLf & Err.Source, Err.Description
+790       Else
+800           Err.Raise Err.Number, "clsGestionIdioma.LoadLanguage Linea " & Erl & vbCrLf & Err.Source, Err.Description
+810       End If
 End Sub
 
 '
@@ -163,7 +172,7 @@ Dim nodoHijo As MSXML2.IXMLDOMNode
 Dim oAtt As MSXML2.IXMLDOMAttribute
 Dim oControl As Control
 Dim hMenu As Long
-Dim i As Long
+Dim I As Long
 
     Set objNode = XMLDoc.createNode(1, of.Name, XMLDoc.namespaceURI)
     Set oAtt = XMLDoc.createNode(2, "Caption", XMLDoc.namespaceURI)
@@ -240,13 +249,13 @@ Dim i As Long
                         nodoHijo.appendChild ncol
                     Next CH
                 Case "SSTab"
-                    For i = 0 To oControl.Tabs - 1
-                        Set ncol = XMLDoc.createNode(1, "TAB" & i, XMLDoc.namespaceURI)
+                    For I = 0 To oControl.Tabs - 1
+                        Set ncol = XMLDoc.createNode(1, "TAB" & I, XMLDoc.namespaceURI)
                         Set oAtt = XMLDoc.createNode(2, "Caption", XMLDoc.namespaceURI)
-                        oAtt.Value = oControl.TabCaption(i)
+                        oAtt.Value = oControl.TabCaption(I)
                         ncol.Attributes.setNamedItem oAtt
                         nodoHijo.appendChild ncol
-                    Next i
+                    Next I
                 Case "StatusBar"
                     Dim Pan As Object
                     For Each Pan In oControl.Panels
@@ -343,7 +352,7 @@ End Function
 Private Function MenuInfo(ByVal vhMenu As Long, ByVal oNodo As MSXML2.IXMLDOMNode)
     Dim MII As MENUITEMINFO
     Dim Cont As Integer
-    Dim i As Integer
+    Dim I As Integer
     Dim nodoHijo As MSXML2.IXMLDOMNode
     Dim oAtt As MSXML2.IXMLDOMAttribute
     
@@ -353,10 +362,10 @@ Private Function MenuInfo(ByVal vhMenu As Long, ByVal oNodo As MSXML2.IXMLDOMNod
     MII.fType = MFT_STRING
     Cont = GetMenuItemCount(vhMenu)
     
-    For i = 0 To Cont - 1
+    For I = 0 To Cont - 1
         MII.cch = 256
         MII.dwTypeData = String(256, Chr(0))
-        GetMenuItemInfo vhMenu, i, True, MII
+        GetMenuItemInfo vhMenu, I, True, MII
         Set nodoHijo = oNodo.ownerDocument.createNode(1, "MenuItem", oNodo.namespaceURI)
         Set oAtt = oNodo.ownerDocument.createNode(2, "Text", oNodo.namespaceURI)
         oAtt.Value = MII.dwTypeData
@@ -366,7 +375,7 @@ Private Function MenuInfo(ByVal vhMenu As Long, ByVal oNodo As MSXML2.IXMLDOMNod
         If MII.hSubMenu <> 0 Then
             MenuInfo MII.hSubMenu, nodoHijo
         End If
-    Next i
+    Next I
     
 End Function
 
@@ -374,7 +383,7 @@ End Function
 Private Function SetMenuInfo(ByVal vhMenu As Long, ByVal oNodo As MSXML2.IXMLDOMNode)
     Dim MII As MENUITEMINFO
     Dim Cont As Integer
-    Dim i As Integer
+    Dim I As Integer
     Dim nodoHijo As MSXML2.IXMLDOMNode
     
     'initialize the structure
@@ -383,26 +392,23 @@ Private Function SetMenuInfo(ByVal vhMenu As Long, ByVal oNodo As MSXML2.IXMLDOM
     MII.fType = MFT_STRING
     
     Cont = oNodo.childNodes.length
-    For i = 0 To Cont - 1
-        Set nodoHijo = oNodo.childNodes(i)
-        GetMenuItemInfo vhMenu, i, True, MII
+    For I = 0 To Cont - 1
+        Set nodoHijo = oNodo.childNodes(I)
+        GetMenuItemInfo vhMenu, I, True, MII
         MII.cch = Len(nodoHijo.Attributes.getNamedItem("Text").Text) + 1
         MII.dwTypeData = nodoHijo.Attributes.getNamedItem("Text").Text & Chr(0)
-        SetMenuItemInfo vhMenu, i, -1, MII
+        SetMenuItemInfo vhMenu, I, -1, MII
         If MII.hSubMenu <> 0 Then
             SetMenuInfo MII.hSubMenu, nodoHijo
         End If
-    Next i
+    Next I
     
 End Function
 
 
 Public Function MessageStr(ByVal Message As String, ParamArray vars()) As String
-    Dim i As Long
     Dim objNode As MSXML2.IXMLDOMNode
     Dim t() As String
-    Dim ret As String
-    Dim msg As String
     Set objNode = XMLDoc.selectSingleNode("/" & RootNode & "/Messages/" & Message)
     If objNode Is Nothing Then
         'if failed to load the message in current language try to load in the default language
@@ -413,32 +419,13 @@ Public Function MessageStr(ByVal Message As String, ParamArray vars()) As String
         If objNode Is Nothing Then
             'If failed to load in default language too then
             MessageStr = "Failed to load message " & Message
-            Exit Function
+        Else
+            MessageStr = Printf(objNode.Text, vars)
         End If
+    Else
+        MessageStr = Printf(objNode.Text, vars)
     End If
-    On Error GoTo 0
-    
-    msg = objNode.Text
-    msg = Replace(msg, Chr(0), Empty)
-    msg = Replace(msg, Chr(1), Empty)
-    msg = Replace(msg, "\\", Chr(1))
-    msg = Replace(msg, "\t", vbTab)
-    msg = Replace(msg, "\n", vbCrLf) 'simplified
-    msg = Replace(msg, "%%", Chr(0))
-    
-    t = Split(msg, "%")
-    
-    ret = t(0)
-    For i = 1 To UBound(t) Step 2
-        ret = ret & vars(t(i)) & t(i + 1)
-    Next i
-    
-    ret = Replace(ret, Chr(0), "%")
-    ret = Replace(ret, Chr(1), "\")
-    MessageStr = ret
-    
 End Function
-
 
 
 
@@ -453,3 +440,52 @@ Public Property Let DefaultLanguage(ByVal sNewValue As String)
     mDefaultLanguage = sNewValue
 
 End Property
+
+Private Function Printf(ByRef Message As String, ParamArray vars() As Variant) As String
+    Dim I As Long
+    Dim t() As String
+    On Error GoTo Err_Printf
+    ' Check if the input format string is empty; if so, return an empty string
+    If Len(Message) = 0 Then
+        Printf = vbNullString
+    Else
+        Printf = Replace(Message, "\\", Chr$(1))
+        Printf = Replace(Printf, "\t", vbTab)
+        Printf = Replace(Printf, "\n", vbNewLine)
+        Printf = Replace(Printf, "\T", vbTab)
+        Printf = Replace(Printf, "\N", vbNewLine)
+        Printf = Replace(Printf, "\%", Chr$(2))
+    
+        ' Check if no arguments were provided (empty ParamArray); if so, return the format string unchanged
+        If UBound(vars) >= LBound(vars) Then
+            'first replace \\
+            If InStr(Printf, "\") > 0 Then
+                'there should be no more \
+                Err.Raise -1, "printf", "Bad formatted string"
+            End If
+    
+            If Left(Printf, 1) = "%" Then
+                'preppend a char if the first word in the message is an argument
+                Printf = Chr$(3) & Printf
+            End If
+            t = Split(Printf, "%")
+            For I = 1 To UBound(t) Step 2
+                t(I) = vars(0)(t(I))
+            Next I
+            Printf = Join(t, vbNullString)
+        End If
+    
+        Printf = Replace(Printf, Chr$(1), "\")
+        Printf = Replace(Printf, Chr$(2), "%")
+        Printf = Replace(Printf, Chr$(3), vbNullString)
+    End If
+
+    Exit Function
+Err_Printf:
+    If Erl = 0 Then
+        Err.Raise Err.Number, "clsGestionIdioma.Printf" & vbCrLf & Err.Source, Err.Description
+    Else
+        Err.Raise Err.Number, "clsGestionIdioma.Printf Linea " & Erl & vbCrLf & Err.Source, Err.Description
+    End If
+End Function
+

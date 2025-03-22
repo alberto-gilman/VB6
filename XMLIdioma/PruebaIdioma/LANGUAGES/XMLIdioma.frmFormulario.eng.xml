@@ -1,9 +1,15 @@
-
-  <Formulario Caption="Form1">
+<?xml version="1.0" encoding="utf-8" ?> 
+  <frmFormulario Caption="Form1">
 	<Messages>
 	  <SALUDOS>
 		Greetings from %0% from %1%
 	  </SALUDOS>
+	<ErrMsg> 
+		Error %0% (%1%) in procedure %2% '%3%' of %4% %5% \n [%6%]
+	</ErrMsg>
+	<ErrErlMsg> 
+		Error %0% (%1%) in procedure %2% '%3%' of %4% %5% in line %7% \n [%6%]
+	</ErrErlMsg>
 	</Messages>
     <cmdMsg ToolTipText="" Index="" Caption="Regards" /> 
     <DataGrid ToolTipText="" Index="" />
@@ -46,4 +52,4 @@
       </MenuItem>
       <MenuItem Text="Edit" />
     </Menu>
-  </Formulario>
+  </frmFormulario>

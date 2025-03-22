@@ -1,10 +1,10 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MsComCtl.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFlxGrd.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TabCtl32.Ocx"
 Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDatGrd.ocx"
 Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MShflxgd.ocx"
-Begin VB.Form Formulario 
+Begin VB.Form frmFormulario 
    Caption         =   "Formulario1"
    ClientHeight    =   9030
    ClientLeft      =   225
@@ -162,7 +162,7 @@ Begin VB.Form Formulario
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   6
             Alignment       =   2
-            TextSave        =   "07/01/2024"
+            TextSave        =   "22/03/2025"
             Object.ToolTipText     =   "Es panel de fecha"
          EndProperty
       EndProperty
@@ -308,7 +308,7 @@ Begin VB.Form Formulario
       Caption         =   "Edición"
    End
 End
-Attribute VB_Name = "Formulario"
+Attribute VB_Name = "frmFormulario"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -342,19 +342,54 @@ Option Explicit
 
 Private oIdioma As New clsGestionIdioma
 
-Private Sub cmdMsg_Click()
+Private Function F()
 
-    MsgBox oIdioma.MessageStr("SALUDOS", "Gilman", "Bilbao")
+    On Error GoTo Err_F
+
+    Exit Function
+Err_F:
+    Screen.MousePointer = vbDefault
+    If Erl = 0 Then
+        MsgBox "Error " & Err.Number & " (" & Err.Description & ") en procedimiento Function 'F' del Formulario Formulario" & vbCrLf & "[" & Err.Source & "]", vbCritical
+    Else
+        MsgBox "Error " & Err.Number & " (" & Err.Description & ") en procedimiento Function 'F' del Formulario Formulario en linea: " & Erl & vbCrLf & "[" & Err.Source & "]", vbCritical
+    End If
+End Function
+
+Private Sub cmdMsg_Click()
+10        On Error GoTo Err_cmdMsg_Click
+20        MsgBox oIdioma.MessageStr("SALUDOS", "Gilman", "Bilbao")
+          
+30        Err.Raise 7, "hello world"
+
+40        Exit Sub
+Err_cmdMsg_Click:
+50        Screen.MousePointer = vbDefault
+60        If Erl = 0 Then
+70            MsgBox oIdioma.MessageStr("ErrMsg", Err.Number, Err.Description, "Sub", "'cmdMsg_Click'", "Formulario", "frmFormulario", Err.Source), vbCritical
+80        Else
+90            MsgBox oIdioma.MessageStr("ErrErlMsg", Err.Number, Err.Description, "Sub", "'cmdMsg_Click'", "Formulario", "frmFormulario", Err.Source, Erl), vbCritical
+100       End If
 End Sub
 
 Private Sub Command1_Click()
     Dim answer As VbMsgBoxResult
+    On Error GoTo Err_Command1_Click
     'The message ASKFOREXIT is not defined in ENG Language, so it is showed in the default language
     answer = MsgBox(oIdioma.MessageStr("ASKFOREXIT"), vbQuestion + vbYesNo + vbDefaultButton2)
     If answer = vbYes Then
         Unload Me
     End If
     
+
+    Exit Sub
+Err_Command1_Click:
+    Screen.MousePointer = vbDefault
+    If Erl = 0 Then
+        MsgBox "Error " & Err.Number & " (" & Err.Description & ") en procedimiento Sub 'Command1_Click' del Formulario Formulario" & vbCrLf & "[" & Err.Source & "]", vbCritical
+    Else
+        MsgBox "Error " & Err.Number & " (" & Err.Description & ") en procedimiento Sub 'Command1_Click' del Formulario Formulario en linea: " & Erl & vbCrLf & "[" & Err.Source & "]", vbCritical
+    End If
 End Sub
 
 Private Sub Form_Load()
@@ -362,7 +397,7 @@ Private Sub Form_Load()
     Dim F As Long
     Dim C As Long
     
-    On Error GoTo Form_Load_Error
+    On Error GoTo Err_Form_Load
     Set oIdioma = New DllCargarIdioma.clsGestionIdioma
     'Establish your default language
     'if a message is not defined in the selected language it is showed in the default language
@@ -393,14 +428,14 @@ Private Sub Form_Load()
     
     oIdioma.LoadLanguage App.Path & "\LANGUAGES", App.ProductName, Me, "ENG"
 
-
-    On Error GoTo 0
     Exit Sub
-
-Form_Load_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Load of Formulario Formulario"
-    
+Err_Form_Load:
+    Screen.MousePointer = vbDefault
+    If Erl = 0 Then
+        MsgBox oIdioma.MessageStr("ErrMsg", Err.Number, Err.Description, "Sub", "'Form_Load'", "Formulario", "frmFormulario", Err.Source), vbCritical
+    Else
+        MsgBox oIdioma.MessageStr("ErrErlMsg", Err.Number, Err.Description, "Sub", "'Form_Load'", "Formulario", "frmFormulario", Err.Source, Erl), vbCritical
+    End If
 End Sub
 
 

@@ -3,4 +3,17 @@
   <SALUDOS>
     Saludos de parte de %0% desde %1%
   </SALUDOS>
+	<ASKFOREXIT>
+		¿Realmente desea salir de la aplicación?\n\tSi sale ahora podra volver a entrar luego
+	</ASKFOREXIT>
+	<ErrMsg> 
+		Error %0% (%1%) en procedimiento %2% '%3%' del %4% %5% \n [%6%]
+	</ErrMsg>
+	<ErrErlMsg> 
+		Error %0% (%1%) en procedimiento %2% '%3%' del %4% %5% en la línea %7% \n [%6%]
+	</ErrErlMsg>
+	<IncorrectDates>
+		La fecha de inicio de %0% no puede ser posterior a la fecha de fin.
+	</IncorrectDates>
+
 </Messages>

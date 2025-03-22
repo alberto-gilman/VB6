@@ -2,8 +2,8 @@ Attribute VB_Name = "Principal"
 Option Explicit
 
 Public Sub Main()
-    Dim of As Formulario
-    Set of = New Formulario
+    Dim of As frmFormulario
+    Set of = New frmFormulario
     of.Show
 End Sub
 
