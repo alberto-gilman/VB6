@@ -38,8 +38,8 @@ Private Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As 
 
 
 Private XMLDoc As MSXML2.DOMDocument60
-Private RootNode As String
 Private mDefaultLanguage As String
+Private RootNode As String
 Private mDir As String
 Private mProductName As String
 
@@ -440,52 +440,4 @@ Public Property Let DefaultLanguage(ByVal sNewValue As String)
     mDefaultLanguage = sNewValue
 
 End Property
-
-Private Function Printf(ByRef Message As String, ParamArray vars() As Variant) As String
-    Dim I As Long
-    Dim t() As String
-    On Error GoTo Err_Printf
-    ' Check if the input format string is empty; if so, return an empty string
-    If Len(Message) = 0 Then
-        Printf = vbNullString
-    Else
-        Printf = Replace(Message, "\\", Chr$(1))
-        Printf = Replace(Printf, "\t", vbTab)
-        Printf = Replace(Printf, "\n", vbNewLine)
-        Printf = Replace(Printf, "\T", vbTab)
-        Printf = Replace(Printf, "\N", vbNewLine)
-        Printf = Replace(Printf, "\%", Chr$(2))
-    
-        ' Check if no arguments were provided (empty ParamArray); if so, return the format string unchanged
-        If UBound(vars) >= LBound(vars) Then
-            'first replace \\
-            If InStr(Printf, "\") > 0 Then
-                'there should be no more \
-                Err.Raise -1, "printf", "Bad formatted string"
-            End If
-    
-            If Left(Printf, 1) = "%" Then
-                'preppend a char if the first word in the message is an argument
-                Printf = Chr$(3) & Printf
-            End If
-            t = Split(Printf, "%")
-            For I = 1 To UBound(t) Step 2
-                t(I) = vars(0)(t(I))
-            Next I
-            Printf = Join(t, vbNullString)
-        End If
-    
-        Printf = Replace(Printf, Chr$(1), "\")
-        Printf = Replace(Printf, Chr$(2), "%")
-        Printf = Replace(Printf, Chr$(3), vbNullString)
-    End If
-
-    Exit Function
-Err_Printf:
-    If Erl = 0 Then
-        Err.Raise Err.Number, "clsGestionIdioma.Printf" & vbCrLf & Err.Source, Err.Description
-    Else
-        Err.Raise Err.Number, "clsGestionIdioma.Printf Linea " & Erl & vbCrLf & Err.Source, Err.Description
-    End If
-End Function
 
